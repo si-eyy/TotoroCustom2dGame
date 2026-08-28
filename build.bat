@@ -1,7 +1,7 @@
 @echo off
-REM Compile all Java files in the Main directory
+REM Compile all Java files in the source directory
 echo Compiling Java files...
-javac Main\*.java -d Main
+javac src\Main\*.java -d src\Main
 if %ERRORLEVEL% EQU 0 (
     echo Compilation successful!
 ) else (

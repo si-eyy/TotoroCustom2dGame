@@ -1,6 +1,9 @@
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import javax.imageio.ImageIO;
 import java.awt.Color;
 
@@ -30,17 +33,30 @@ public class Player extends Entity {
         // Load player images here
 
         try {
-            up1 = ImageIO.read(getClass().getResourceAsStream("/res/player/to_up_1.png"));
-            up2 = ImageIO.read(getClass().getResourceAsStream("/res/player/to_up_2.png"));
-            down1 = ImageIO.read(getClass().getResourceAsStream("/res/player/to_down_1.png"));
-            down2 = ImageIO.read(getClass().getResourceAsStream("/res/player/to_down_2.png"));
-            left1 = ImageIO.read(getClass().getResourceAsStream("/res/player/to_left_1.png"));
-            left2 = ImageIO.read(getClass().getResourceAsStream("/res/player/to_left_2.png"));
-            right1 = ImageIO.read(getClass().getResourceAsStream("/res/player/to_right_1.png"));
-            right2 = ImageIO.read(getClass().getResourceAsStream("/res/player/to_right_2.png"));
+            up1 = loadImage("res/player/to_up_1.png");
+            up2 = loadImage("res/player/to_up_2.png");
+            down1 = loadImage("res/player/to_down_1.png");
+            down2 = loadImage("res/player/to_down_2.png");
+            left1 = loadImage("res/player/to_left_1.png");
+            left2 = loadImage("res/player/to_left_2.png");
+            right1 = loadImage("res/player/to_right_1.png");
+            right2 = loadImage("res/player/to_right_2.png");
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private BufferedImage loadImage(String resourcePath) throws IOException {
+        InputStream classpathImage = getClass().getClassLoader().getResourceAsStream(resourcePath);
+        if (classpathImage != null) {
+            return ImageIO.read(classpathImage);
+        }
+
+        Path imagePath = Path.of(resourcePath);
+        if (!Files.exists(imagePath)) {
+            imagePath = Path.of("TotoroCustom2dGame", resourcePath);
+        }
+        return ImageIO.read(imagePath.toFile());
     }
 
     public void update () {
