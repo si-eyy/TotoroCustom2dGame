@@ -133,11 +133,8 @@ public class Player extends Entity {
                     image = right1;
                 }
                 if (SpriteNum == 2) {
-                    image = left2;
+                    image = right2;
                 }
-                break;
-            case "right":
-                image = right1;
                 break;
         }
 
