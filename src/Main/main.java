@@ -9,7 +9,7 @@ public class main {
         window.setResizable(false);
         window.setTitle("Totoro Custom 2D Game");
 
-        gamepanel gamePanel = new gamepanel();
+        GamePanel gamePanel = new GamePanel();
         window.add(gamePanel);
 
         window.pack();
