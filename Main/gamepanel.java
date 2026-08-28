@@ -16,6 +16,9 @@ public class gamepanel extends JPanel implements Runnable {
     final int screenWidth = tileSize * maxScreenCol;
     final int screenHeight = tileSize * maxScreenRow;
 
+    // FPS
+    int FPS = 60;
+
     KeyHandler keyH = new KeyHandler();
     Thread gameThread;
 
@@ -40,20 +43,62 @@ public class gamepanel extends JPanel implements Runnable {
         gameThread.start();
     }
 
+    /*
     @Override
     public void run() {
 
-        while (gameThread != null) {
-            
-            System.out.println("The game loop is running");
+        double drawInterval = 1000000000/FPS; // 0.01666 seconds
+        double nextDrawTime = System.nanoTime() + drawInterval;
 
+        while (gameThread != null) {
+         
             update();
 
             repaint();
+
+            try {
+                double remainingTime = nextDrawTime - System.nanoTime();
+                remainingTime = remainingTime/1000000;
+
+                if (remainingTime < 0) {
+                    remainingTime = 0;
+                }
+
+                Thread.sleep((long) remainingTime);
+
+                nextDrawTime += drawInterval;
+
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } 
+        }
+        
+} 
+    */
+
+    @Override
+    public void run() {
+
+        double drawInterval = 1000000000/FPS; // 0.01666 seconds
+        double delta = 0;
+        long lastTime = System.nanoTime();
+        long currentTime;
+
+        while (gameThread != null) {
+
+            currentTime = System.nanoTime();
+            delta = (currentTime - lastTime) / drawInterval;
+            lastTime = currentTime;
+
+            if (delta >= 1) {
+                update();
+                repaint();
+                delta--;
+            }
         }
 
-        
-}
+    }
+
     public void update() {
         // Update game state
 
