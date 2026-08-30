@@ -24,7 +24,7 @@ public class Player extends Entity {
         screenX = gp.screenWidth/2 - (gp.tileSize/2);
         screenY = gp.screenHeight/2 - (gp.tileSize/2);
 
-        solidArea = new Rectangle( 0, 0, 32, 32);
+        solidArea = new Rectangle( 8, 16, 32, 32);
 
         setDefaultValues();
         getPLayerImage();
@@ -68,42 +68,81 @@ public class Player extends Entity {
         return ImageIO.read(imagePath.toFile());
     }
 
-    public void update () {
+    public void update1() {
 
-        if (keyH.upPressed == true || keyH.downPressed == true || keyH.leftPressed == true || keyH.rightPressed == true) {
+    if (keyH.upPressed || keyH.downPressed || keyH.leftPressed || keyH.rightPressed) {
 
-        if (keyH.upPressed == true) {
+        if (keyH.upPressed) {
             direction = "up";
-            worldY -= speed;
-        }  
-        else if (keyH.downPressed == true) {
+        }
+        else if (keyH.downPressed) {
             direction = "down";
-            worldY += speed;
         }
-        else if (keyH.leftPressed == true) {
+        else if (keyH.leftPressed) {
             direction = "left";
-            worldX -= speed;
         }
-        else if (keyH.rightPressed == true) {
+        else if (keyH.rightPressed) {
             direction = "right";
-            worldX += speed;
         }
-    }
 
-    collisionOn = false;
-    gp.cChecker.checkTile(this);
-    
-        SpriteCounter++;
-        if (SpriteCounter > 12) { 
-            if (SpriteNum == 1) {
-                SpriteNum = 2;
-            } 
-            else if (SpriteNum == 2) {
-                SpriteNum = 1;
+        collisionOn = false;
+        gp.cChecker.checkTile(this);
+
+        // If collision is false, player can move
+        if (!collisionOn) {
+            switch (direction) {
+                case "up": worldY -= speed; break;
+                case "down": worldY += speed; break;
+                case "left": worldX -= speed; break;
+                case "right": worldX += speed; break;
             }
+        }
+
+        SpriteCounter++;
+        if (SpriteCounter > 12) {
+            SpriteNum = (SpriteNum == 1) ? 2 : 1;
             SpriteCounter = 0;
         }
     }
+}
+
+public void update() {
+
+    if (keyH.upPressed || keyH.downPressed || keyH.leftPressed || keyH.rightPressed) {
+
+        if (keyH.upPressed) {
+            direction = "up";
+        }
+        else if (keyH.downPressed) {
+            direction = "down";
+        }
+        else if (keyH.leftPressed) {
+            direction = "left";
+        }
+        else if (keyH.rightPressed) {
+            direction = "right";
+        }
+
+        collisionOn = false;
+        gp.cChecker.checkTile(this);
+
+        // If collision is false, player can move
+        if (!collisionOn) {
+            switch (direction) {
+                case "up": worldY -= speed; break;
+                case "down": worldY += speed; break;
+                case "left": worldX -= speed; break;
+                case "right": worldX += speed; break;
+            }
+        }
+
+        SpriteCounter++;
+        if (SpriteCounter > 12) {
+            SpriteNum = (SpriteNum == 1) ? 2 : 1;
+            SpriteCounter = 0;
+        }
+    }
+}
 
     public void draw(Graphics2D g2) {
 
